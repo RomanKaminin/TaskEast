@@ -1,6 +1,7 @@
 
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block content %}
 <div class="main" style="margin-top: 10px;">
     <div class="container" style="animation-name: fade-in;animation-duration: 2s;">
@@ -10,8 +11,6 @@
             <div class="admin-datalist-page">
                 <div class="view-buttons" style="margin-top: 0px;">
                     <a class="btn btn-primary-send float-l rates__btn">Клиенты</a>
-
-
                 </div>
                 <div class="table" style="min-height: 400px;">
                     <div class="row header">
@@ -20,7 +19,6 @@
                             <li><a href="#0">Фамилия</a></li>
                             <li><a href="#0">Отчество</a></li>
                             <li><a href="#0">Должность</a></li>
-                            <!--<li><a href="#0">Отдел</a></li>-->
                         </ul>
                     </div>
 
@@ -34,8 +32,8 @@
                                                     <li>{{ client.first_name }}</li>
                                                     <li>{{ client.last_name }}</li>
                                                     <li>{{ client.position }}</li>
-                                                    <!--<li>{{ client.departament_id. }}</li>-->
-                                                     <!--<a href="/accesses/access/{{ access.id }}/">edit</a>-->
+
+
                                                 </ul>
                                                 <div class="icon-arrow"></div>
                                                 </a>
@@ -43,6 +41,37 @@
                                         {% endfor %}
                     </div>
                 </div>
+            {% if is_paginated %}
+                <ul class="pagination pagination-centered">
+        {#            {% if page_obj.has_previous %}#}
+        {#                <li><a href="?page=1"><<</a></li>#}
+        {#                <li><a href="?page={{ page_obj.previous_page_number }}"><</a></li>#}
+        {#            {% endif %}#}
+
+                    {% for i in paginator.page_range %}
+                        <li {% if page_obj.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
+                    {% endfor %}
+
+        {#            {% if page_obj.has_next %}#}
+        {#                <li><a href="?page={{ page_obj.next_page_number }}">></a></li>#}
+        {#                <li><a href="?page={{ page_obj.paginator.num_pages }}">>></a></li>#}
+        {#            {% endif %}#}
+                </ul>
+            {% endif %}
+
+{#                    <div class="pagination">#}
+{#                            <div class="section-inner clearfix">#}
+{#                                <p>#}
+{#                                    {% if clients_list.has_previous %}#}
+{#                                        <a id="news-pagination-early" href="?page={{ clients_list.previous_page_number }}">Back</a>#}
+{#                                    {% endif %}#}
+{##}
+{#                                    {% if clients_list.has_next %}#}
+{#                                        <a id="news-pagination-old" href="?page={{ clients_list.next_page_number }}">Next</a>#}
+{#                                    {% endif %}#}
+{#                                </p>#}
+{#                            </div>#}
+{#                    </div>#}
             </div>
         </div>
     </main>

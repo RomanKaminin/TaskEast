@@ -1,60 +1,62 @@
 
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% block content %}
 <main class="main rates">
     <div class="container">
         <div class="admin-datalist-page">
 
-            <div class="centred-content container-s" style="margin-top: -40px;">
-                <div class="row">
-                    <!--<a class="btn btn-primary-send float-l rates__btn">Информация по клиенту</a>-->
+            <div class="centred-content container-s" style="margin-top: -75px;">
+                <div class="row" style="margin: 0 30px;">
+                    <a href="\" class="btn btn-primary-send float-l rates__btn">Назад</a>
 
                 </div><!-- .title-bar -->
                 <div class="content-box padding" style="box-shadow: 0 0 20px #e7e7e7;background-color: #fff;box-sizing: border-box;margin:  0 30px;">
-                    <form class="form-horizontal" role="form" action="" method="POST">
-                      <!--{% csrf_token %}-->
-                        <div class="input-wrap ">
-                            <label>Имя клиента</label>
-                            <input style="color: black; border-color: grey;" value="{{ client_data.username }}" type="text" readonly>
-                        </div>
+{#                    <form class="form-horizontal" role="form" action="" method="POST">#}
+
                         <div class="input-wrap ">
                             <label>Фамилия</label>
                             <input style="color: black; border-color: grey;" value="{{ client_data.first_name }}" type="text" readonly>
+                        </div>
+                        <div class="input-wrap ">
+                            <label style="display: block;">Имя</label>
+                            <input style="color: black; border-color: grey;" value="{{ client_data.username }}" type="text" readonly>
                         </div>
                         <div class="input-wrap ">
                             <label>Отчество</label>
                             <input style="color: black; border-color: grey;"  value="{{ client_data.last_name }}" type="text" readonly>
                         </div>
                         <div class="input-wrap ">
-                            <label>Дата рождения</label>
-                            <input style="color: black; border-color: grey;"   value="{{ client_data.born_date|date:"Y-M-d" }}" type="text" >
-                        </div>
-                        <div class="input-wrap ">
-                            <label >E-mail</label>
-                            <input style="color: black; border-color: grey;" class="form-control" value="{{ client_data.email }}" type="text" >
-                        </div>
-                        <div class="input-wrap ">
-                            <label >Номер телефона</label>
-                            <input style="color: black; border-color: grey;" type="text"  value="{{ client_data.phone_number }}" />
-                        </div>
-                        <div class="input-wrap ">
-                            <label >Дата начала работы</label>
-                            <input style="color: black; border-color: grey;" type="text"  value="{{ client_data.start_work_date|date:"Y-M-d"  }}" />
-                        </div>
-                        <div class="input-wrap ">
-                            <label>Дата окончания работы</label>
-                            <input style="color: black; border-color: grey;" type="text"  value="{{ client_data.end_work_date|date:"Y-M-d"  }}" />
-                        </div>
-                        <div class="input-wrap ">
                             <label>Должность</label>
-                            <input style="color: black; border-color: grey;" value="{{ client_data.position }}" type="text" >
+                            <input style="color: black; border-color: grey;" value="{{ client_data.position }}" type="text" readonly>
                         </div>
                         <div class="input-wrap ">
                             <label>Отдел</label>
-                            <input style="color: black; border-color: grey;"  value="{{ client_data.department }}" type="text" >
+                            <input style="color: black; border-color: grey;"  value="{{ client_data.department }}" type="text" readonly>
                         </div>
-                    </form>
+                        <div class="input-wrap ">
+                            <label>Дата рождения</label>
+                            <input style="color: black; border-color: grey;"   value="{{ client_data.born_date|date:"d-M-Y" }}" type="text" readonly>
+                        </div>
+                        <div class="input-wrap ">
+                            <label >E-mail</label>
+                            <input style="color: black; border-color: grey;" class="form-control" value="{{ client_data.email }}" type="text" readonly>
+                        </div>
+                        <div class="input-wrap ">
+                            <label >Номер телефона</label>
+                            <input style="color: black; border-color: grey;" type="text"  value="{{ client_data.phone_number }}" readonly>
+                        </div>
+                        <div class="input-wrap ">
+                            <label >Дата начала работы</label>
+                            <input style="color: black; border-color: grey;" type="text"  value="{{ client_data.start_work_date|date:"d-M-Y"  }}" readonly>
+                        </div>
+                        <div class="input-wrap ">
+                            <label>Дата окончания работы</label>
+                            <input style="color: black; border-color: grey;" type="text"  value="{{ client_data.end_work_date|date:"d-M-Y"  }}" readonly>
+                        </div>
+
+{#                    </form>#}
                 </div><!-- .content-box -->
             </div>
         </div>
