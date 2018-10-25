@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
+from app.views import ClientList, ClientDetail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^$', ClientList.as_view(), name='home'),
+    url(r'^client/(?P<pk>\d+)/$', ClientDetail.as_view(), name='client-detail'),
 ]
