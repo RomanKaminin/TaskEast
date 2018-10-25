@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+MPTT_ADMIN_LEVEL_INDENT = 40
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'mptt',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
