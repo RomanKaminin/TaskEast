@@ -13,9 +13,9 @@
                     </div>
                     <div class="control-box">
 
-                    <form class="search-input"  style="margin: 0;" action="{% url 'home' %}" method="GET">
+                    <form class="search-input"  id="filter-form" style="margin: 0;" action="{% url 'home' %}" method="GET">
                         {{ filter.form.as_p }}
-                       <input type="text" class=" input-search" />
+                        <input type="text" class=" input-search" />
                         <button type="submit" class="btn btn-gray btn-search"></button>
                     </form>
                     <!--<form class="search-input" action="{% url 'home' %}"  style="margin: 0; float: inline-end;" method="GET">-->
@@ -26,23 +26,23 @@
                 <div class="table" style="min-height: 400px;">
                     <div class="row header">
                         <ul>
-                            <li><a href="#0">Имя</a></li>
-                            <li><a href="#0">Фамилия</a></li>
-                            <li><a href="#0">Отчество</a></li>
-                            <li><a href="#0">Должность</a></li>
+                            <li><a>Имя</a></li>
+                            <li><a>Фамилия</a></li>
+                            <li><a>Отчество</a></li>
+                            <li><a>Должность</a></li>
                         </ul>
                     </div>
                     <div id="tableRows">
                         {% for client in filter.qs %}
-                                <a href="/client/{{ client.id }}/" class="row">
-                                    <ul>
-                                        <li>{{ client.username }}</li>
-                                        <li>{{ client.first_name }}</li>
-                                        <li>{{ client.last_name }}</li>
-                                        <li>{{ client.position }}</li>
-                                    </ul>
-                                    <div class="icon-arrow"></div>
-                                </a>
+                            <a href="/client/{{ client.id }}/" class="row">
+                                <ul>
+                                    <li>{{ client.username }}</li>
+                                    <li>{{ client.first_name }}</li>
+                                    <li>{{ client.last_name }}</li>
+                                    <li>{{ client.position }}</li>
+                                </ul>
+                                <div class="icon-arrow"></div>
+                            </a>
                          {% endfor %}
                     </div>
                 </div>

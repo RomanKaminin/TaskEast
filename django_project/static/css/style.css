@@ -77,3 +77,18 @@
     top: 9px;
     width: 36px;
 }
+#filter-form p label{
+    float: left;
+     clear: left
+}
+
+#filter-form p input{
+    float: left;
+    clear: left;
+    border-color: gray;
+}
+#id_department select{
+    visibility: visible;
+background: 0 0;border: 1px solid rgba(255,255,255,.4);border-top-color: rgba(255, 255, 255, 0.4);border-right-color: rgba(255, 255, 255, 0.4);border-bottom-color: rgba(255, 255, 255, 0.4);border-left-color: rgba(255, 255, 255, 0.4);color: #181515;font-size: 2rem;font-weight: 100;line-height: 20px;padding: 5px 20px;width: calc(100% - 42px);
+
+}
