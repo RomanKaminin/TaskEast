@@ -10,6 +10,18 @@
             <div class="admin-datalist-page">
                 <div class="view-buttons" style="margin-top: 0px;">
                     <a class="btn btn-primary-send float-l rates__btn">Клиенты</a>
+                    </div>
+                    <div class="control-box">
+
+                    <form class="search-input"  style="margin: 0;" action="{% url 'home' %}" method="GET">
+                        {{ filter.form.as_p }}
+                       <input type="text" class=" input-search" />
+                        <button type="submit" class="btn btn-gray btn-search"></button>
+                    </form>
+                    <!--<form class="search-input" action="{% url 'home' %}"  style="margin: 0; float: inline-end;" method="GET">-->
+                        <!--<input type="text" class="form-control input-search" value="{{request.GET.end_work_date}}" placeholder="Работает в компании" name="end_work_date" />-->
+                        <!--<button type="button" class="btn btn-gray btn-search"></button>-->
+                    <!--</form>-->
                 </div>
                 <div class="table" style="min-height: 400px;">
                     <div class="row header">
@@ -21,7 +33,7 @@
                         </ul>
                     </div>
                     <div id="tableRows">
-                        {% for client in clients_list %}
+                        {% for client in filter.qs %}
                                 <a href="/client/{{ client.id }}/" class="row">
                                     <ul>
                                         <li>{{ client.username }}</li>

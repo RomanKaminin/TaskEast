@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'mptt',
-    'phonenumber_field',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

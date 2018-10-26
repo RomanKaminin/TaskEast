@@ -1,9 +1,7 @@
 from django.db import models
-from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
 import mptt
-from phonenumber_field.modelfields import PhoneNumberField
-
+from django.core.validators import RegexValidator
 
 class Department(MPTTModel):
     class Meta():
@@ -29,6 +27,7 @@ mptt.register(Department, order_insertion_by = ['name'])
 
 
 class Client(models.Model):
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     class Meta():
         verbose_name_plural = "Сотрудники"
         verbose_name = "Сотрудник"
@@ -38,7 +37,7 @@ class Client(models.Model):
     last_name = models.CharField( max_length=30, blank=True, verbose_name="Отчество")
     born_date = models.DateField(blank=True, null=True, verbose_name="Дата рождения")
     email = models.EmailField(blank=True, verbose_name="E-mail")
-    phone_number = PhoneNumberField(blank=True, verbose_name="Телефон")
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     start_work_date = models.DateField(blank=True, verbose_name="Дата начала работы")
     end_work_date = models.DateField(blank=True, null=True, verbose_name="Дата окончания работы")
     position = models.CharField(max_length=200, verbose_name="Должность")

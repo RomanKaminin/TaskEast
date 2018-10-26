@@ -1,7 +1,8 @@
 from django.views.generic import ListView, DetailView
 from app.models import Client, Department
 from django.shortcuts import get_object_or_404, render
-from app.helpers import get_records
+from django_filters.views import FilterView
+from app.filtersets import ClientFilter
 
 
 # class ClientList(ListView):
@@ -13,21 +14,19 @@ from app.helpers import get_records
 #         queryset = get_records(self.request, clients, 2)
 #         return queryset
 
-class ClientList(ListView):
+
+# class ProductFilter(django_filters.FilterSet):
+#     class Meta:
+#         model = Client
+#         fields = ['department', 'end_work_date']
+
+class ClientList(FilterView):
     context_object_name = 'clients_list'
     template_name = "home.html"
     paginate_by = 2
-
-
-    def get_queryset(self, *args, **kwargs):
-        if self.kwargs:
-            return Client.objects.filter(category=self.kwargs['category']).order_by('-createdAt')
-        else:
-            query = Client.objects.all().order_by('id')
-            return query
-
-
-
+    model = Client
+    filter_class = ClientFilter
+    filterset_fields = {'department', 'username'}
 
 
 class ClientDetail(ListView):
@@ -37,4 +36,5 @@ class ClientDetail(ListView):
     def get_queryset(self):
         self.client = get_object_or_404(Client, id=self.kwargs['pk'])
         return self.client
+
 

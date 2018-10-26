@@ -27,3 +27,53 @@
     margin: 0 3px;
     border-radius: 5px;
 }
+.admin-datalist-page .control-box {
+
+    -webkit-box-shadow: 0 0 20px #e7e7e7 !important;
+    -moz-box-shadow: 0 0 20px #e7e7e7 !important;
+    -o-box-shadow: 0 0 20px #e7e7e7 !important;
+    box-shadow: 0 0 20px #e7e7e7 !important;
+    background-color: #fff !important;
+    margin: 0;
+    padding: 10px;
+    position: relative;
+
+
+}
+.admin-datalist-page .view-buttons {
+
+    display:  inline-block  !important;
+    margin-top: 0px  !important;
+    width: 0%  !important;
+    margin-bottom: 5px;
+}
+
+.admin-datalist-page .control-box .search-input {
+    max-width: 350px;
+}
+
+.btn.btn-find::before, .btn.btn-search {
+    background-image: url(../img/icon-loop.svg);
+    background-size: 30px auto;
+    height: 60px;
+    width: 60px;
+    vertical-align: top;
+}
+
+.admin-datalist-page .control-box .search-input .btn {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background-clip: padding-box;
+    background-color: #e7e7e7;
+    background-size: 50%;
+    border-color: #e7e7e7;
+    box-shadow: none;
+    color: #999;
+    height: 36px;
+    margin: 0;
+    padding: 5px;
+    position: absolute;
+    right: -2px;
+    top: 9px;
+    width: 36px;
+}
