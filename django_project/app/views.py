@@ -1,10 +1,9 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from app.models import Client
 from django.shortcuts import get_object_or_404
 from django_filters.views import FilterView
 from app.filtersets import ClientFilter
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from app.helpers import get_records
+from app.helpers import paginator_work
 from urllib.parse import urlencode
 
 
@@ -17,21 +16,14 @@ class ClientList(FilterView):
         qs = self.model.objects.all()
         filtered = self.filter_class(self.request.GET, queryset=qs)
         qs_with_filters = filtered.qs
-        paginator = Paginator(qs_with_filters, 3)
-        page = self.request.GET.get('page')
-        gt = self.request.GET.copy()
-        if 'page' in gt:
-            del gt['page']
-        try:
-            page_obj = paginator.page(page)
-        except PageNotAnInteger:
-            page_obj = paginator.page(1)
-        except EmptyPage:
-            page_obj = paginator.page(paginator.num_pages)
+        paginator = paginator_work(self.request, qs_with_filters, 3)
+        params = self.request.GET.copy()
+        if 'page' in params:
+            del params['page']
         context = {
-            'paginator': paginator,
-            'page_object': page_obj,
-            'params': urlencode(gt),
+            'paginator': paginator['paginator'],
+            'page_objects': paginator['page_objects'],
+            'params': urlencode(params),
             'filter': filtered,
         }
         return context
@@ -45,5 +37,4 @@ class ClientDetail(ListView):
     def get_queryset(self):
         self.client = get_object_or_404(Client, id=self.kwargs['pk'])
         return self.client
-
 
