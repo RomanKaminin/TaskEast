@@ -1,72 +1,70 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% block content %}
-<div class="main" style="margin-top: 10px;">
-    <div class="container" style="animation-name: fade-in;animation-duration: 2s;">
-      <div class="row admin-content">
-            <main class="main rates">
-        <div class="container">
-            <div class="admin-datalist-page">
-                <div class="view-buttons" style="margin-top: 0px;">
-                    <a class="btn btn-primary-send float-l rates__btn">Клиенты</a>
-                    </div>
-                    <div class="control-box">
+{% block content %}
+    <div class="main" style="margin-top: 10px;">
+        <div class="container" style="animation-name: fade-in;animation-duration: 2s;">
+          <div class="row admin-content">
+                <main class="main rates">
+            <div class="container">
+                <div class="admin-datalist-page">
+                    <div class="view-buttons" style="margin-top: 0px;">
+                        <a class="btn btn-primary-send float-l rates__btn">Клиенты</a>
+                        </div>
+                        <div class="control-box">
 
-                    <form class="search-input"  id="filter-form" style="margin: 0;" action="{% url 'home' %}" method="GET">
-                        {{ filter.form.as_p }}
-{#                        <input type="text" class=" input-search" />#}
-                        <button type="submit" class="btn btn-gray btn-search"></button>
-                    </form>
-                </div>
-                <div class="table" style="min-height: 400px;">
-                    <div class="row header">
-                        <ul>
-                            <li><a>Имя</a></li>
-                            <li><a>Фамилия</a></li>
-                            <li><a>Отчество</a></li>
-                            <li><a>Должность</a></li>
-                        </ul>
+                        <form class="search-input"  id="filter-form" action="{% url 'home' %}" method="GET">
+                            {{ filter.form.as_p }}
+                            <button type="submit" class="btn btn-gray btn-search"></button>
+                        </form>
                     </div>
-                    <div id="tableRows">
-                        {% for client in filter.qs %}
-{#                            {% for client in clients_list %}#}
-                            <a href="/client/{{ client.id }}/" class="row">
-                                <ul>
-                                    <li>{{ client.username }}</li>
-                                    <li>{{ client.first_name }}</li>
-                                    <li>{{ client.last_name }}</li>
-                                    <li>{{ client.position }}</li>
-                                </ul>
-                                <div class="icon-arrow"></div>
-                            </a>
-                         {% endfor %}
+                    <div class="table" style="min-height: 400px;">
+                        <div class="row header">
+                            <ul>
+                                <li><a>Имя</a></li>
+                                <li><a>Фамилия</a></li>
+                                <li><a>Отчество</a></li>
+                                <li><a>Должность</a></li>
+                            </ul>
+                        </div>
+                        <div id="tableRows">
+                                {% for client in page_object %}
+                                <a href="/client/{{ client.id }}/" class="row">
+                                    <ul>
+                                        <li>{{ client.username }}</li>
+                                        <li>{{ client.first_name }}</li>
+                                        <li>{{ client.last_name }}</li>
+                                        <li>{{ client.position }}</li>
+                                    </ul>
+                                    <div class="icon-arrow"></div>
+                                </a>
+                             {% endfor %}
+                        </div>
                     </div>
-                </div>
-                <div class="table-footer">
-                    <div class="pagination">
-                        {% if is_paginated %}
-                        <ul class="pagination-list">
-                            {% if page_obj.has_previous %}
-                            <li><a href="?page={{ page_obj.previous_page_number }}"><</a></li>
-                            {% endif %}
-                            {% for i in paginator.page_range %}
-                            <li {% if page_obj.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
-                            {% endfor %}
-                            {% if page_obj.has_next %}
-                            <li><a href="?page={{ page_obj.next_page_number }}">></a></li>
-                            {% endif %}
-                        </ul>
-                        {% endif %}
+                    <div class="table-footer">
+                        <div class="pagination">
+    {#                        {% if is_paginated %}#}
+                            <ul class="pagination-list">
+                                {% if page_object.has_previous %}
+                                <li><a href="?page={{ page_object.previous_page_number }}&{{ params }}"><</a></li>
+                                {% endif %}
+                                {% for i in paginator.page_range %}
+                                <li {% if page_object.number == i %} class="active" {% endif %}><a href="?page={{i}}&{{ params }}">{{i}}</a></li>
+                                {% endfor %}
+                                {% if page_object.has_next %}
+                                <li><a href="?page={{ page_object.next_page_number }}&{{ params }}">></a></li>
+                                {% endif %}
+                            </ul>
+    {#                        {% endif %}#}
+                        </div>
+
                     </div>
 
                 </div>
-
             </div>
-        </div>
-    </main>
-      </div><!-- .row -->
-    </div><!-- .container -->
-  </div><!-- .main -->
+        </main>
+          </div><!-- .row -->
+        </div><!-- .container -->
+      </div><!-- .main -->
 {% endblock %}
 

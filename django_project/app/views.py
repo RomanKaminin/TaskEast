@@ -1,57 +1,41 @@
-from django.views.generic import ListView, DetailView
-from app.models import Client, Department
-from django.shortcuts import get_object_or_404, render
+from django.views.generic import ListView
+from app.models import Client
+from django.shortcuts import get_object_or_404
 from django_filters.views import FilterView
 from app.filtersets import ClientFilter
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from app.helpers import get_records
+from urllib.parse import urlencode
 
-# class ClientList(ListView):
-#     context_object_name = 'clients_list'
-#     template_name = "home.html"
-#
-#     def get_queryset(self):
-#         clients = Client.objects.all()
-#         queryset = get_records(self.request, clients, 2)
-#         return queryset
-
-
-# class ProductFilter(django_filters.FilterSet):
-#     class Meta:
-#         model = Client
-#         fields = ['department', 'end_work_date']
 
 class ClientList(FilterView):
-    # context_object_name = 'clients_list'
     template_name = "home.html"
-    # paginate_by = 2
     model = Client
-    # filter_class = ClientFilter
-    # filterset_fields = {'department', 'end_work_date'}
+    filter_class = ClientFilter
 
     def get_context_data(self, **kwargs):
-        context = super(ClientList, self).get_context_data()
-        context['filter'] = ClientFilter(self.request.GET, queryset=self.get_queryset())
+        qs = self.model.objects.all()
+        filtered = self.filter_class(self.request.GET, queryset=qs)
+        qs_with_filters = filtered.qs
+        paginator = Paginator(qs_with_filters, 3)
+        page = self.request.GET.get('page')
+        gt = self.request.GET.copy()
+        if 'page' in gt:
+            del gt['page']
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            page_obj = paginator.page(paginator.num_pages)
+        context = {
+            'paginator': paginator,
+            'page_object': page_obj,
+            'params': urlencode(gt),
+            'filter': filtered,
+        }
         return context
-    # def get_queryset(self):
-    #     condo_list = self.model.objects.all()
-    #     condo_filter = ClientFilter(self.request.GET, queryset=condo_list)
-    #
-    #     paginator = Paginator(condo_filter.qs, 2)
-    #     page = self.request.GET.get('page')
-    #
-    #     try:
-    #         condos = paginator.page(page)
-    #     except PageNotAnInteger:
-    #         condos = paginator.page(1)
-    #     except EmptyPage:
-    #         condos = paginator.page(paginator.num_pages)
-    #
-    #     return {
-    #         'title': 'Home',
-    #         'condos': condos,
-    #         'page': page,
-    #         'condo_filter': condo_filter,
-    #     }
+
 
 
 class ClientDetail(ListView):
