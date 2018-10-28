@@ -3,23 +3,26 @@ from app.models import Client
 from django.db.models import Q
 
 class ClientFilter(django_filters.FilterSet):
-    VALUES_ORD =(
-        ('asc', 'ASC'),
-        ('desc', 'DESC')
-    )
-    ordering = django_filters.ChoiceFilter(label='Порядок',
-                                           choices=VALUES_ORD,
-                                           method='filter_by_order'
-                                           )
 
     VALUES_WOR = (
         ('true', 'Работают'),
         ('false', 'Не работают')
     )
-    now_work = django_filters.ChoiceFilter(label='Работает в компании',
-                                           choices=VALUES_WOR,
-                                           method='filter_by_end_work'
-                                           )
+    now_work = django_filters.ChoiceFilter(
+        label='Работает в компании',
+        choices=VALUES_WOR,
+        method='filter_by_end_work'
+    )
+
+    VALUES_ORD =(
+        ('asc', 'ASC'),
+        ('desc', 'DESC')
+    )
+    ordering = django_filters.ChoiceFilter(
+        label='Порядок',
+        choices=VALUES_ORD,
+        method='filter_by_order'
+    )
 
     class Meta:
         model = Client
@@ -49,10 +52,11 @@ class AlphabetFilter(django_filters.FilterSet):
         (u'в', 'В'),
         (u'г', 'Г'),
     )
-    first_alph = django_filters.ChoiceFilter(label='А-Г',
-                                           choices=FIRST_VALUES,
-                                           method='filter_alph'
-                                           )
+    first_alph = django_filters.ChoiceFilter(
+        label='А-Г',
+        choices=FIRST_VALUES,
+        method='filter_alph'
+    )
 
     SECOND_VALUES = (
         (u'д_е_ё_ж', 'Д-Ж'),
@@ -61,10 +65,11 @@ class AlphabetFilter(django_filters.FilterSet):
         (u'ё', 'Ё'),
         (u'ж', 'Ж'),
     )
-    second_alph = django_filters.ChoiceFilter(label='Д-Ж',
-                                           choices=SECOND_VALUES,
-                                           method='filter_alph'
-                                           )
+    second_alph = django_filters.ChoiceFilter(
+        label='Д-Ж',
+        choices=SECOND_VALUES,
+        method='filter_alph'
+    )
 
     THIRD_VALUES = (
         (u'з_и_й_к', '3-К'),
@@ -73,10 +78,11 @@ class AlphabetFilter(django_filters.FilterSet):
         (u'й', 'Й'),
         (u'к', 'К'),
     )
-    third_alph = django_filters.ChoiceFilter(label='З-К',
-                                           choices=THIRD_VALUES,
-                                           method='filter_alph'
-                                           )
+    third_alph = django_filters.ChoiceFilter(
+        label='З-К',
+        choices=THIRD_VALUES,
+        method='filter_alph'
+    )
 
     FOURTH_VALUES = (
         (u'л_м_н_о_п', 'Л-П'),
@@ -86,10 +92,11 @@ class AlphabetFilter(django_filters.FilterSet):
         (u'о', 'О'),
         (u'п', 'П'),
     )
-    fourth_alph = django_filters.ChoiceFilter(label='Л-П',
-                                             choices=FOURTH_VALUES,
-                                             method='filter_alph'
-                                             )
+    fourth_alph = django_filters.ChoiceFilter(
+        label='Л-П',
+        choices=FOURTH_VALUES,
+        method='filter_alph'
+    )
 
     FIFTH_VALUES = (
         (u'р_с_т_у', 'Р-У'),
@@ -98,10 +105,11 @@ class AlphabetFilter(django_filters.FilterSet):
         (u'т', 'Т'),
         (u'у', 'У'),
     )
-    fifth_alph = django_filters.ChoiceFilter(label='Р-У',
-                                             choices=FIFTH_VALUES,
-                                             method='filter_alph'
-                                             )
+    fifth_alph = django_filters.ChoiceFilter(
+        label='Р-У',
+        choices=FIFTH_VALUES,
+        method='filter_alph'
+    )
 
     SIXTH_VALUES = (
         (u'ф_х_ц_ч_ш', 'Ф-Ш'),
@@ -111,10 +119,11 @@ class AlphabetFilter(django_filters.FilterSet):
         (u'ч', 'Ч'),
         (u'ш', 'Ш'),
     )
-    sixth_alph = django_filters.ChoiceFilter(label='Ф-Ш',
-                                             choices=SIXTH_VALUES,
-                                             method='filter_alph'
-                                             )
+    sixth_alph = django_filters.ChoiceFilter(
+        label='Ф-Ш',
+        choices=SIXTH_VALUES,
+        method='filter_alph'
+    )
 
     SEVENTH_VALUES = (
         (u'щ_э_ю_я', 'Щ-Я'),
@@ -123,12 +132,11 @@ class AlphabetFilter(django_filters.FilterSet):
         (u'ю', 'Ю'),
         (u'я', 'Я'),
     )
-    seventh_alph = django_filters.ChoiceFilter(label='Щ-Я',
-                                             choices=SEVENTH_VALUES,
-                                             method='filter_alph'
-                                             )
-
-
+    seventh_alph = django_filters.ChoiceFilter(
+        label='Щ-Я',
+        choices=SEVENTH_VALUES,
+        method='filter_alph'
+    )
 
     def filter_alph(self, queryset, name, value):
         if len(value) > 1:

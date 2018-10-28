@@ -1,71 +1,54 @@
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/main.min.css' %}">
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% extends "base.html" %}
 {% block content %}
-    <div class="main" style="margin-top: 10px;">
+    <main class="main">
         <div class="container">
-          <div class="row admin-content">
-                <main class="main">
-            <div class="container">
-                <div class="admin-datalist-page">
-                    <div class="view-buttons" style="margin-top: 0px;">
-                        <a href="\" class="btn btn-primary-send float-l rates__btn">Клиенты</a>
-                        <a style="margin-right: 0px;"  href="\alphabetical_index" class="btn btn-primary-send float-r btn--font-weight">Алфавитный указатель</a>
-                        </div>
-                        <div class="control-box">
-
-                        <form class="search-input"  id="filter-form" action="{% url 'home' %}" method="GET">
-                            {{ filter.form.as_p }}
-                            <button type="submit" class="btn btn-gray btn-search"></button>
-                        </form>
-                    </div>
-                    <div class="table">
-                        <div class="row header">
-                            <ul>
-                                <li><a>Имя</a></li>
-                                <li><a>Фамилия</a></li>
-                                <li><a>Отчество</a></li>
-                                <li><a>Отдел</a></li>
-                                <li><a>Должность</a></li>
-                            </ul>
-                        </div>
-                        <div id="tableRows">
-                             {% for client in page_objects %}
-                                <a href="/client/{{ client.id }}/" class="row">
-                                    <ul>
-                                        <li>{{ client.username }}</li>
-                                        <li>{{ client.first_name }}</li>
-                                        <li>{{ client.last_name }}</li>
-                                        <li>{{ client.department }}</li>
-                                        <li>{{ client.position }}</li>
-                                    </ul>
-                                    <div class="icon-arrow"></div>
-                                </a>
-                             {% endfor %}
-                        </div>
-                    </div>
-                    <div class="table-footer">
-                        <div class="pagination">
-                            <ul class="pagination-list">
-                                {% if page_objects.has_previous %}
-                                <li><a href="?page={{ page_objects.previous_page_number }}&{{ params }}"><</a></li>
-                                {% endif %}
-                                {% for i in paginator.page_range %}
-                                <li {% if page_objects.number == i %} class="active" {% endif %}><a href="?page={{i}}&{{ params }}">{{i}}</a></li>
-                                {% endfor %}
-                                {% if page_objects.has_next %}
-                                <li><a href="?page={{ page_objects.next_page_number }}&{{ params }}">></a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-
-                    </div>
-
+            <div class="view-buttons">
+                <a href="\" class="btn btn-primary-send float-l">Клиенты</a>
+                <a href="\alphabetical_index" class="btn btn-primary-send float-r btn--font-weight">Алфавитный указатель</a>
                 </div>
+            <div class="row">
+                <form class="search-input"  id="filter-form" action="{% url 'home' %}" method="GET">
+                    {{ filter.form.as_p }}
+                    <button type="submit" class="btn btn-info">Применить</button>
+                </form>
             </div>
-        </main>
-          </div><!-- .row -->
-        </div><!-- .container -->
-      </div><!-- .main -->
+
+            <table class="table table-hover my-table">
+                  <thead class="thead-inverse">
+                    <tr>
+                      <th>Имя</th>
+                      <th>Фамилия</th>
+                      <th>Отчество</th>
+                      <th>Отдел</th>
+                      <th>Должность</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                       {% for client in page_objects %}
+                           <tr onclick="window.location='/client/{{ client.id }}/';" >
+                              <td class="col-md-2">{{ client.username }}</td>
+                              <td class="col-md-2">{{ client.first_name }}</td>
+                              <td class="col-md-2">{{ client.last_name }}</td>
+                              <td class="col-md-2">{{ client.department }}</td>
+                              <td class="col-md-2">{{ client.position }}</td>
+                           </tr>
+                      {% endfor %}
+                  </tbody>
+            </table>
+            <nav class="text-right"  aria-label="">
+                <ul class="pagination">
+                    {% if page_objects.has_previous %}
+                    <li class="disabled"><a href="?page={{ page_objects.previous_page_number }}&{{ params }}"><</a></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                    <li {% if page_objects.number == i %} class="active" {% endif %}><a href="?page={{i}}&{{ params }}">{{i}}</a></li>
+                    {% endfor %}
+                    {% if page_objects.has_next %}
+                    <li><a href="?page={{ page_objects.next_page_number }}&{{ params }}">></a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </main>
 {% endblock %}
 

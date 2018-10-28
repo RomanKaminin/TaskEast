@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from app.models import Client
 from django.shortcuts import get_object_or_404
 from django_filters.views import FilterView
@@ -27,8 +27,6 @@ class ClientList(FilterView):
             'filter': filtered,
         }
         return context
-
-
 
 class ClientDetail(ListView):
     context_object_name = 'client_data'
