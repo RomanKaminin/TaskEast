@@ -1,4 +1,6 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, \
+    PageNotAnInteger
+
 
 
 def paginator_work(request, list, num):

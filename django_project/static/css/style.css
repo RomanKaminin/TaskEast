@@ -44,7 +44,7 @@
 
     display:  inline-block  !important;
     margin-top: 0px  !important;
-    width: 0%  !important;
+
     margin-bottom: 5px;
 }
 
@@ -97,6 +97,6 @@ background: 0 0;border: 1px solid rgba(255,255,255,.4);border-top-color: rgba(25
 #filter-form{
     margin: 0;
     display: inline-block;
-    max-width: 900px;
+    max-width: 1900px;
     max-height: 55px;
 }
