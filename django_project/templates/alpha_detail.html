@@ -26,7 +26,7 @@
                       </thead>
                       <tbody>
                            {% for client in page_objects %}
-                               <tr onclick="window.location='/client/{{ client.id }}/';" >
+                               <tr>
                                   <td class="col-md-2">{{ client.username }}</td>
                                   <td class="col-md-2">{{ client.first_name }}</td>
                                   <td class="col-md-2">{{ client.last_name }}</td>
