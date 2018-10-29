@@ -36,6 +36,13 @@ class ClientDetail(ListView):
         self.client = get_object_or_404(Client, id=self.kwargs['pk'])
         return self.client
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        url_filter = self.request.build_absolute_uri()
+        source_filter_page = url_filter[url_filter.find('?') + 1:]
+        context['source_filter_page'] = source_filter_page
+        return context
+
 class AlphaList(ListView):
     template_name = 'alpha_detail.html'
     model = Client
