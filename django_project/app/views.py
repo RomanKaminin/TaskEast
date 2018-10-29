@@ -14,18 +14,21 @@ class ClientList(FilterView):
 
     def get_context_data(self, **kwargs):
         qs = self.model.objects.all()
-        filtered = self.filter_class(self.request.GET, queryset=qs)
-        qs_with_filters = filtered.qs
-        paginator = paginator_work(self.request, qs_with_filters, 3)
-        params = self.request.GET.copy()
-        if 'page' in params:
-            del params['page']
-        context = {
-            'paginator': paginator['paginator'],
-            'page_objects': paginator['page_objects'],
-            'params': urlencode(params),
-            'filter': filtered,
-        }
+        if qs.exists():
+            filtered = self.filter_class(self.request.GET, queryset=qs)
+            qs_with_filters = filtered.qs
+            paginator = paginator_work(self.request, qs_with_filters, 3)
+            params = self.request.GET.copy()
+            if 'page' in params:
+                del params['page']
+            context = {
+                'paginator': paginator['paginator'],
+                'page_objects': paginator['page_objects'],
+                'params': urlencode(params),
+                'filter': filtered,
+            }
+        else:
+            context = {}
         return context
 
 class ClientDetail(ListView):
