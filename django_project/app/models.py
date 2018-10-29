@@ -35,15 +35,15 @@ class Client(models.Model):
         verbose_name_plural = "Сотрудники"
         verbose_name = "Сотрудник"
 
-    first_name = models.CharField(max_length=30, blank=True, verbose_name="Фамилия")
-    username = models.CharField(max_length=150, blank=True, verbose_name="Имя")
-    last_name = models.CharField( max_length=30, blank=True, verbose_name="Отчество")
+    first_name = models.CharField(max_length=100, blank=True, verbose_name="Фамилия")
+    username = models.CharField(max_length=50, blank=True, verbose_name="Имя")
+    last_name = models.CharField( max_length=100, blank=True, verbose_name="Отчество")
     born_date = models.DateField(blank=True, null=True, verbose_name="Дата рождения")
     email = models.EmailField(blank=True, verbose_name="E-mail")
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     start_work_date = models.DateField(blank=True, verbose_name="Дата начала работы")
     end_work_date = models.DateField(blank=True, null=True, verbose_name="Дата окончания работы")
-    position = models.CharField(max_length=200, verbose_name="Должность")
+    position = models.CharField(max_length=100, verbose_name="Должность")
     department = TreeForeignKey(
         Department,
         blank=True,
