@@ -46,23 +46,80 @@ class ClientDetail(ListView):
         context['source_filter_page'] = source_filter_page
         return context
 
+# class AlphaList(ListView):
+#     template_name = 'alpha_detail.html'
+#     model = Client
+#     filter_class = AlphabetFilter
+#
+#     def get_context_data(self, **kwargs):
+#         qs = self.model.objects.all()
+#         filtered = self.filter_class(self.request.GET, queryset=qs)
+#         qs_with_filters = filtered.qs
+#         paginator = paginator_work(self.request, qs_with_filters, 3)
+#         params = self.request.GET.copy()
+#         if 'page' in params:
+#             del params['page']
+#         context = {
+#             'paginator': paginator['paginator'],
+#             'page_objects': paginator['page_objects'],
+#             'params': urlencode(params),
+#             'filter': filtered,
+#         }
+#         return context
+
+
 class AlphaList(ListView):
-    template_name = 'alpha_detail.html'
+    template_name = 'alpha_detail_new.html'
     model = Client
-    filter_class = AlphabetFilter
+    # filter_class = AlphabetFilter
 
     def get_context_data(self, **kwargs):
-        qs = self.model.objects.all()
-        filtered = self.filter_class(self.request.GET, queryset=qs)
-        qs_with_filters = filtered.qs
-        paginator = paginator_work(self.request, qs_with_filters, 3)
         params = self.request.GET.copy()
         if 'page' in params:
             del params['page']
+
+
+        values_alph = []
+        qs = self.model.objects.all()
+        first_names = self.model.objects.all().values_list('first_name')
+        first_names_list = [first_name[0][0] for first_name in first_names]
+        for item in first_names_list:
+            if item.upper() not in values_alph:
+                values_alph.append(item.upper())
+        values_alph = sorted(values_alph)
+
+        filters_alph = []
+        if len(values_alph) > 4:
+            number = 2
+            if 4 < len(values_alph) < 9:
+                number = 2
+            elif 9 < len(values_alph) < 13:
+                number = 3
+            elif 13 < len(values_alph) < 19:
+                number = 4
+            elif 19 < len(values_alph) < 25:
+                number = 5
+            elif 25 < len(values_alph) < 30:
+                number = 6
+            elif  len(values_alph) > 30:
+                number = 7
+            filter_alph_lists = self.split_alph_list(values_alph, number)
+            for item_alph in filter_alph_lists:
+                filters_alph.append(['{}-{}'.format(item_alph[0], item_alph[-1])])
+        else:
+            filters_alph.append(['{}-{}'.format(values_alph[0], values_alph[-1])])
+
+        paginator = paginator_work(self.request, qs, 3)
         context = {
             'paginator': paginator['paginator'],
             'page_objects': paginator['page_objects'],
             'params': urlencode(params),
-            'filter': filtered,
+            'filters_alph': filters_alph,
         }
         return context
+
+    def split_alph_list(self, a, n):
+        k, m = divmod(len(a), n)
+        return (a[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n))
+
+
