@@ -8,11 +8,13 @@
                         <a href="\" class="btn btn-primary-send float-l rates__btn">Клиенты</a>
                         <a href="\alphabetical_index" class="btn btn-primary-send float-r rates__btn">Алфавитный указатель</a>
                         </div>
-                    <div class="row">
-                        <form class="search-input"  id="filter-alpha" action="{% url 'alphabetical-index' %}" method="GET">
-                            {{ filter.form.as_p }}
-                            <button type="submit" class="btn btn-info">Применить</button>
+                    <div class="row alph-filters">
+                        {% for item_filter in filters_alph %}
+                        <form action="\alphabetical_index" method="GET" id="add_user_form">
+                                <input type="text" name="alph_val" value="{{ item_filter }}" hidden>
+                            <input type="submit" value="{{ item_filter }}" class="default"/>
                         </form>
+                        {% endfor %}
                     </div>
 
                     <table class="table table-hover my-table">

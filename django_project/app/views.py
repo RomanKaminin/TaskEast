@@ -2,11 +2,11 @@ from django.views.generic import ListView
 from app.models import Client
 from django.shortcuts import get_object_or_404
 from django_filters.views import FilterView
-from app.filtersets import ClientFilter, AlphabetFilter
+from app.filtersets import ClientFilter
 from app.helpers import paginator_work
 from urllib.parse import urlencode
 from django.db.models import Q
-
+from django.conf import settings
 
 
 class ClientList(FilterView):
@@ -48,30 +48,9 @@ class ClientDetail(ListView):
         context['source_filter_page'] = source_filter_page
         return context
 
-# class AlphaList(ListView):
-#     template_name = 'alpha_detail.html'
-#     model = Client
-#     filter_class = AlphabetFilter
-#
-#     def get_context_data(self, **kwargs):
-#         qs = self.model.objects.all()
-#         filtered = self.filter_class(self.request.GET, queryset=qs)
-#         qs_with_filters = filtered.qs
-#         paginator = paginator_work(self.request, qs_with_filters, 3)
-#         params = self.request.GET.copy()
-#         if 'page' in params:
-#             del params['page']
-#         context = {
-#             'paginator': paginator['paginator'],
-#             'page_objects': paginator['page_objects'],
-#             'params': urlencode(params),
-#             'filter': filtered,
-#         }
-#         return context
-
 
 class AlphaList(ListView):
-    template_name = 'alpha_detail_new.html'
+    template_name = 'alpha_detail.html'
     model = Client
 
     def get_context_data(self, **kwargs):
@@ -80,10 +59,13 @@ class AlphaList(ListView):
         if 'page' in params:
             del params['page']
 
-
         values_alph = []
         if 'alph_val' in params:
             alph_literals = params['alph_val'][2:-2].split("-")
+            alph_literals.extend(settings.VALUES_ALPH[len(settings.VALUES_ALPH) -
+                                                      settings.VALUES_ALPH[::-1].index(alph_literals[0]):
+                                                      settings.VALUES_ALPH.index(alph_literals[1])]
+                                 )
             qs = self.model.objects.none()
             queryset = self.model.objects.all()
 
@@ -104,15 +86,15 @@ class AlphaList(ListView):
         filters_alph = []
         if len(values_alph) > 4:
             number = 2
-            if 4 < len(values_alph) < 9:
+            if 4 < len(values_alph) <= 9:
                 number = 2
-            elif 9 < len(values_alph) < 13:
+            elif 9 < len(values_alph) <= 13:
                 number = 3
-            elif 13 < len(values_alph) < 19:
+            elif 13 < len(values_alph) <= 19:
                 number = 4
-            elif 19 < len(values_alph) < 25:
+            elif 19 < len(values_alph) <= 25:
                 number = 5
-            elif 25 < len(values_alph) < 30:
+            elif 25 < len(values_alph) <= 30:
                 number = 6
             elif  len(values_alph) > 30:
                 number = 7
