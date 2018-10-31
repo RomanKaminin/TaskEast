@@ -5,6 +5,8 @@ from django_filters.views import FilterView
 from app.filtersets import ClientFilter, AlphabetFilter
 from app.helpers import paginator_work
 from urllib.parse import urlencode
+from django.db.models import Q
+
 
 
 class ClientList(FilterView):
@@ -71,16 +73,27 @@ class ClientDetail(ListView):
 class AlphaList(ListView):
     template_name = 'alpha_detail_new.html'
     model = Client
-    # filter_class = AlphabetFilter
 
     def get_context_data(self, **kwargs):
+        qs = self.model.objects.all()
         params = self.request.GET.copy()
         if 'page' in params:
             del params['page']
 
 
         values_alph = []
-        qs = self.model.objects.all()
+        if 'alph_val' in params:
+            alph_literals = params['alph_val'][2:-2].split("-")
+            qs = self.model.objects.none()
+            queryset = self.model.objects.all()
+
+            for i in alph_literals:
+                query_feltred = queryset.order_by("first_name").filter(
+                    Q(first_name__startswith=i) | Q(first_name__startswith=i.lower())
+                )
+                qs = qs.union(query_feltred)
+
+
         first_names = self.model.objects.all().values_list('first_name')
         first_names_list = [first_name[0][0] for first_name in first_names]
         for item in first_names_list:

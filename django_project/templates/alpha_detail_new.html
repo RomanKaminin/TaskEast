@@ -10,7 +10,12 @@
                         </div>
                     <div class="row alph-filters">
                         {% for item_filter in filters_alph %}
-                        <a>{{ item_filter }}</a>
+                        <form action="\alphabetical_index" method="GET" id="add_user_form">
+                            <!--{% csrf_token %}-->
+                                <input type="text" name="alph_val" value="{{ item_filter }}" hidden>
+                            <input type="submit" value="{{ item_filter }}" class="default"/>
+                        </form>
+                        <!--<a>{{ item_filter }}</a>-->
                         <!--<form class="search-input"  id="filter-alpha" action="{% url 'alphabetical-index' %}" method="GET">-->
                             <!--{{ filter.form.as_p }}-->
                             <!--<button type="submit" class="btn btn-info">Применить</button>-->
