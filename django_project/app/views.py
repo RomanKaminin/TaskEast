@@ -55,62 +55,66 @@ class AlphaList(ListView):
 
     def get_context_data(self, **kwargs):
         qs = self.model.objects.all()
-        params = self.request.GET.copy()
-        if 'page' in params:
-            del params['page']
+        if qs.exists():
+            params = self.request.GET.copy()
+            if 'page' in params:
+                del params['page']
 
-        values_alph = []
-        if 'alph_val' in params:
-            alph_literals = params['alph_val'][2:-2].split("-")
-            alph_literals.extend(settings.VALUES_ALPH[len(settings.VALUES_ALPH) -
-                                                      settings.VALUES_ALPH[::-1].index(alph_literals[0]):
-                                                      settings.VALUES_ALPH.index(alph_literals[1])]
-                                 )
-            qs = self.model.objects.none()
-            queryset = self.model.objects.all()
+            values_alph = []
+            if 'alph_val' in params:
+                alph_literals = params['alph_val'][2:-2].split("-")
+                alph_literals.extend(settings.VALUES_ALPH[len(settings.VALUES_ALPH) -
+                                                          settings.VALUES_ALPH[::-1].index(alph_literals[0]):
+                                                          settings.VALUES_ALPH.index(alph_literals[1])]
+                                     )
+                qs = self.model.objects.none()
+                queryset = self.model.objects.all()
 
-            for i in alph_literals:
-                query_feltred = queryset.order_by("first_name").filter(
-                    Q(first_name__startswith=i) | Q(first_name__startswith=i.lower())
-                )
-                qs = qs.union(query_feltred)
+                for i in alph_literals:
+                    query_feltred = queryset.order_by("first_name").filter(
+                        Q(first_name__startswith=i) | Q(first_name__startswith=i.lower())
+                    )
+                    qs = qs.union(query_feltred)
 
 
-        first_names = self.model.objects.all().values_list('first_name')
-        first_names_list = [first_name[0][0] for first_name in first_names]
-        for item in first_names_list:
-            if item.upper() not in values_alph:
-                values_alph.append(item.upper())
-        values_alph = sorted(values_alph)
+            first_names = self.model.objects.all().values_list('first_name')
+            first_names_list = [first_name[0][0] for first_name in first_names]
+            for item in first_names_list:
+                if item.upper() not in values_alph:
+                    values_alph.append(item.upper())
+            values_alph = sorted(values_alph)
 
-        filters_alph = []
-        if len(values_alph) > 4:
-            number = 2
-            if 4 < len(values_alph) <= 9:
+            filters_alph = []
+            if len(values_alph) > 4:
                 number = 2
-            elif 9 < len(values_alph) <= 13:
-                number = 3
-            elif 13 < len(values_alph) <= 19:
-                number = 4
-            elif 19 < len(values_alph) <= 25:
-                number = 5
-            elif 25 < len(values_alph) <= 30:
-                number = 6
-            elif  len(values_alph) > 30:
-                number = 7
-            filter_alph_lists = self.split_alph_list(values_alph, number)
-            for item_alph in filter_alph_lists:
-                filters_alph.append(['{}-{}'.format(item_alph[0], item_alph[-1])])
-        else:
-            filters_alph.append(['{}-{}'.format(values_alph[0], values_alph[-1])])
+                if 4 < len(values_alph) <= 9:
+                    number = 2
+                elif 9 < len(values_alph) <= 13:
+                    number = 3
+                elif 13 < len(values_alph) <= 19:
+                    number = 4
+                elif 19 < len(values_alph) <= 25:
+                    number = 5
+                elif 25 < len(values_alph) <= 30:
+                    number = 6
+                elif  len(values_alph) > 30:
+                    number = 7
+                filter_alph_lists = self.split_alph_list(values_alph, number)
+                for item_alph in filter_alph_lists:
+                    filters_alph.append(['{}-{}'.format(item_alph[0], item_alph[-1])])
+            else:
+                filters_alph.append(['{}-{}'.format(values_alph[0], values_alph[-1])])
 
-        paginator = paginator_work(self.request, qs, 3)
-        context = {
-            'paginator': paginator['paginator'],
-            'page_objects': paginator['page_objects'],
-            'params': urlencode(params),
-            'filters_alph': filters_alph,
-        }
+            paginator = paginator_work(self.request, qs, 3)
+            context = {
+                'paginator': paginator['paginator'],
+                'page_objects': paginator['page_objects'],
+                'params': urlencode(params),
+                'filters_alph': filters_alph,
+            }
+        else:
+            context = {}
+
         return context
 
     def split_alph_list(self, a, n):

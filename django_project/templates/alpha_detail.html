@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-
-                <main class="main">
+     <main class="main">
             <div class="container" >
                 <div class="admin-datalist-page">
                     <div class="view-buttons" >
@@ -23,7 +22,6 @@
                           <th>Имя</th>
                           <th>Фамилия</th>
                           <th>Отчество</th>
-
                         </tr>
                       </thead>
                       <tbody>
@@ -32,7 +30,6 @@
                                   <td class="col-md-2">{{ client.username }}</td>
                                   <td class="col-md-2">{{ client.first_name }}</td>
                                   <td class="col-md-2">{{ client.last_name }}</td>
-
                                </tr>
                           {% endfor %}
                       </tbody>
