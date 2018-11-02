@@ -29,7 +29,7 @@ class ClientFilter(django_filters.FilterSet):
         fields = ['department',]
 
     def filter_by_order(self, queryset, name, value):
-        expression = 'username' if value == 'asc' else '-username'
+        expression = 'first_name' if value == 'asc' else '-first_name'
         return queryset.order_by(expression)
 
     def filter_by_end_work(self, queryset, name, value):

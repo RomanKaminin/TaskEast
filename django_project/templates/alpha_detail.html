@@ -19,16 +19,16 @@
                     <table class="table table-hover my-table">
                       <thead class="thead-inverse">
                         <tr>
-                          <th>Имя</th>
                           <th>Фамилия</th>
+                          <th>Имя</th>
                           <th>Отчество</th>
                         </tr>
                       </thead>
                       <tbody>
                            {% for client in page_objects %}
                                <tr>
-                                  <td class="col-md-2">{{ client.username }}</td>
                                   <td class="col-md-2">{{ client.first_name }}</td>
+                                  <td class="col-md-2">{{ client.username }}</td>
                                   <td class="col-md-2">{{ client.last_name }}</td>
                                </tr>
                           {% endfor %}

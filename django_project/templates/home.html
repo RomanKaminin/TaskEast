@@ -16,8 +16,8 @@
             <table class="table table-hover my-table">
                   <thead class="thead-inverse">
                     <tr>
-                      <th>Имя</th>
                       <th>Фамилия</th>
+                      <th>Имя</th>
                       <th>Отчество</th>
                       <th>Отдел</th>
                       <th>Должность</th>
@@ -26,8 +26,8 @@
                   <tbody>
                        {% for client in page_objects %}
                            <tr onclick="window.location='/client/{{ client.id }}/?page={{page_objects.number}}&{{ params }}';" >
-                              <td class="col-md-2">{{ client.username }}</td>
                               <td class="col-md-2">{{ client.first_name }}</td>
+                              <td class="col-md-2">{{ client.username }}</td>
                               <td class="col-md-2">{{ client.last_name }}</td>
                               <td class="col-md-2">{{ client.department }}</td>
                               <td class="col-md-2">{{ client.position }}</td>
