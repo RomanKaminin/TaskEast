@@ -105,7 +105,12 @@ class AlphaList(ListView):
             else:
                 filters_alph.append(['{}-{}'.format(values_alph[0], values_alph[-1])])
 
-            paginator = paginator_work(self.request, qs.order_by('first_name'), 3)
+            if 'number_records' in params:
+                number_records = params['number_records']
+            else:
+                number_records = 3
+            paginator = paginator_work(self.request, qs.order_by('first_name'), number_records)
+
             context = {
                 'paginator': paginator['paginator'],
                 'page_objects': paginator['page_objects'],

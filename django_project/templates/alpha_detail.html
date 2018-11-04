@@ -9,13 +9,23 @@
                         </div>
                     <div class="row alph-filters">
                         {% for item_filter in filters_alph %}
-                        <form action="\alphabetical_index" method="GET" id="add_user_form">
+                        <form action="\alphabetical_index" method="GET">
                                 <input type="text" name="alph_val" value="{{ item_filter }}" hidden>
                             <input type="submit" value="{{ item_filter }}" class="default"/>
                         </form>
                         {% endfor %}
                     </div>
-
+                    <div class="row ">
+                        <form action="{{ request.get_full_path }}" method="GET" >
+                            <p class="pag-select">Записей на странице:</p>
+                              <select id="pag_form" name="number_records">
+                                <option selected="selected">{{ page_objects|length }}</option>
+                                <option onclick="updatePagItem()">3</option>
+                                <option onclick="updatePagItem()">5</option>
+                                <option onclick="updatePagItem()">10</option>
+                              </select>
+                        </form>
+                    </div>
                     <table class="table table-hover my-table">
                       <thead class="thead-inverse">
                         <tr>
@@ -50,6 +60,17 @@
                 </div>
             </div>
         </main>
-
+    <script  type="text/javascript">
+        function updatePagItem() {
+            var number_records = $("#pag_form").val();
+            var url = window.location.search;
+            document.location.href = '/alphabetical_index' + replaceQueryParam('number_records', number_records, url);
+        }
+        function replaceQueryParam(param, newval, search) {
+            var regex = new RegExp("([?;&])" + param + "[^&;]*[;&]?");
+            var query = search.replace(regex, "$1").replace(/&$/, '');
+            return (query.length > 2 ? query + "&" : "?") + (newval ? param + "=" + newval : '');
+        }
+    </script>
 {% endblock %}
 

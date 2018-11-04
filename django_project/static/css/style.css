@@ -68,3 +68,10 @@
     justify-content: space-between;
     margin: 25px 0px 25px 0px;
 }
+.pag-select{
+    width: 158px;
+    float: left;
+    padding: 6px;
+    margin-left: 10px;
+
+}
