@@ -9,14 +9,13 @@
                         </div>
                     <div class="row alph-filters">
                         {% for item_filter in filters_alph %}
-                        <form action="\alphabetical_index" method="GET">
-                                <input type="text" name="alph_val" value="{{ item_filter }}" hidden>
-                            <input type="submit" value="{{ item_filter }}" class="default"/>
+                        <form action="" method="GET">
+                            <a class="btn btn-default" id="{{ item_filter }}" onclick="updateAlphItem(this.id)">{{ item_filter }}</a>
                         </form>
                         {% endfor %}
                     </div>
                     <div class="row ">
-                        <form action="{{ request.get_full_path }}" method="GET" >
+                        <form action="" method="GET" >
                             <p class="pag-select">Записей на странице:</p>
                               <select id="pag_form" name="number_records">
                                 <option selected="selected">{{ page_objects|length }}</option>
@@ -65,6 +64,10 @@
             var number_records = $("#pag_form").val();
             var url = window.location.search;
             document.location.href = '/alphabetical_index' + replaceQueryParam('number_records', number_records, url);
+        }
+        function updateAlphItem(alph_id) {
+            var url = window.location.search;
+            document.location.href = '/alphabetical_index' + replaceQueryParam('alph_val', alph_id, url);
         }
         function replaceQueryParam(param, newval, search) {
             var regex = new RegExp("([?;&])" + param + "[^&;]*[;&]?");
